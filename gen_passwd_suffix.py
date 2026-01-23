@@ -9,6 +9,9 @@ def generate_suffixes():
     
     suffixes = []
     
+    # THÊM CÁC WORD ĐỘC LẬP (mỗi WORD cũng là một suffix)
+    suffixes.extend(keywords)
+    
     # PATTERN-0 (standalone special chars)
     pattern0 = [
         "`", "!", "@", "#", "$", 
@@ -154,25 +157,69 @@ def generate_suffixes():
             f"{word}$#@"
         ])
     
-    return list(set(suffixes))  # Remove duplicates
+    # Loại bỏ duplicates và trả về
+    return list(set(suffixes))
 
 def main():
     suffixes = generate_suffixes()
     
+    # Sắp xếp để dễ nhìn (tùy chọn)
+    suffixes.sort()
+    
     print(f"Total unique suffixes generated: {len(suffixes)}")
-    print("\nFirst 50 suffixes:")
-    for i, suffix in enumerate(suffixes[:50], 1):
-        print(f"{i:3}. {suffix}")
+    print("\n=== CATEGORY SAMPLES ===")
     
-    print("\nLast 50 suffixes:")
-    for i, suffix in enumerate(suffixes[-50:], len(suffixes)-49):
-        print(f"{i:3}. {suffix}")
+    # Hiển thị theo nhóm để dễ kiểm tra
+    print("\n1. Pure WORD suffixes (26 items):")
+    for word in [
+        "123", "123123", "456", "456456", "789", "789789", 
+        "777", "7777", "888", "8888", "999", "9999", "000", "0000",
+        "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027",
+        "zxc", "zxczxc", "qwe", "qweqwe", "asd", "asdasd"
+    ]:
+        print(f"   {word}")
     
-    # Optionally save to file
-    with open("suffixes_list.txt", "w", encoding="utf-8") as f:
+    print("\n2. PATTERN-0 (Special chars only - 28 items):")
+    for i, suffix in enumerate([
+        "`", "!", "@", "#", "$", 
+        "``", "!!", "!!!", "@@", "@@@", "##", "###", "$$", "$$$",
+        "`!", "!`", "!@", "@!", "@#", "#@", "#$", "$#",
+        "`!@", "@!`", "!@#", "#@!", "@#$", "$#@"
+    ], 1):
+        print(f"   {i:2}. {suffix}")
+    
+    print("\n3. PATTERN-1 samples (WORD with single special char prefix/suffix):")
+    sample_word = "123"
+    samples = [
+        f"`{sample_word}", f"!{sample_word}", f"@{sample_word}", f"#{sample_word}", f"${sample_word}",
+        f"{sample_word}`", f"{sample_word}!", f"{sample_word}@", f"{sample_word}#", f"{sample_word}$"
+    ]
+    for i, suffix in enumerate(samples, 1):
+        print(f"   {i:2}. {suffix}")
+    
+    print("\n4. PATTERN-2 samples (WORD wrapped with prefix and ` suffix):")
+    samples = [
+        f"`{sample_word}`", f"!{sample_word}`", f"@{sample_word}`", 
+        f"#{sample_word}`", f"${sample_word}`"
+    ]
+    for i, suffix in enumerate(samples, 1):
+        print(f"   {i:2}. {suffix}")
+    
+    print("\n5. PATTERN-9 samples (Repeated special chars with WORD):")
+    samples = [
+        f"``{sample_word}", f"```{sample_word}", f"!!{sample_word}", 
+        f"{sample_word}``", f"{sample_word}```", f"{sample_word}!!",
+        f"{sample_word}`!@", f"{sample_word}!@#"
+    ]
+    for i, suffix in enumerate(samples, 1):
+        print(f"   {i:2}. {suffix}")
+    
+    # Lưu toàn bộ ra file
+    with open("suffixes_complete.txt", "w", encoding="utf-8") as f:
         for suffix in suffixes:
             f.write(suffix + "\n")
-    print(f"\nSaved all suffixes to 'suffixes_list.txt'")
+    
+    print(f"\n✓ Saved {len(suffixes)} unique suffixes to 'suffixes_complete.txt'")
 
 if __name__ == "__main__":
     main()
