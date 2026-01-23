@@ -215,11 +215,11 @@ def main():
         print(f"   {i:2}. {suffix}")
     
     # Lưu toàn bộ ra file
-    with open("suffixes_complete.txt", "w", encoding="utf-8") as f:
+    with open("passwd_suffixes.txt", "w", encoding="utf-8") as f:
         for suffix in suffixes:
             f.write(suffix + "\n")
     
-    print(f"\n✓ Saved {len(suffixes)} unique suffixes to 'suffixes_complete.txt'")
+    print(f"\n✓ Saved {len(suffixes)} unique suffixes to 'passwd_suffixes.txt'")
 
 if __name__ == "__main__":
     main()
